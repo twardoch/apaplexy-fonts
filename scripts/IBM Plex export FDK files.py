@@ -1,5 +1,4 @@
 #FLM: IBM Plex export for FDK
-# -*- coding: utf-8 -*-
 
 '''
 	* IBM Plex export for FDK *
@@ -13,6 +12,7 @@
 '''
 
 import os
+
 try:
 	from robofab.world import world
 	hasRF = True
@@ -20,12 +20,12 @@ except ImportError:
 	hasRF = False
 
 if hasRF == True:
+	from robofab.interface.all.dialogs import GetFolder, ProgressBar
 	from robofab.world import CurrentFont, OpenFont
-	from robofab.interface.all.dialogs import ProgressBar, GetFolder
 	FLmode = world.inFontLab
 	if FLmode == True:
-		from FL import *
 		import fl_cmd
+		from FL import *
 
 
 
