@@ -32,3 +32,7 @@ cdn
 # Packages
 packages/*/css
 packages/*/scss
+# Python
+__pycache__/
+*.pyc
+.pytest_cache/
