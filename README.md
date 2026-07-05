@@ -1,3 +1,14 @@
+<!-- this_file: README.md -->
+
+> **About this repository.** This is a packaging fork/mirror of the upstream
+> [IBM Plex](https://github.com/IBM/plex) typeface, kept for versioned redistribution
+> of the compiled font binaries. The fonts, their names, and IBM's text below are
+> unchanged and remain © IBM under the SIL Open Font License. What this fork adds is
+> release tooling and a validation pass (`tests/test_fonts.py`) that proves every
+> shipped OTF/TTF master parses and carries a sane name table. Upstream is the source
+> of truth for the fonts themselves — report font bugs at
+> [IBM/plex](https://github.com/IBM/plex/issues).
+
 # IBM Plex® typeface
 
 <p align="center">
@@ -38,3 +49,51 @@ Please download the latest zip files from our [releases page](https://github.com
 | IBM Plex Sans Thai        | [@ibm/plex-sans-thai](https://www.npmjs.com/package/@ibm/plex-sans-thai)               |
 | IBM Plex Sans Thai Looped | [@ibm/plex-sans-thai-looped](https://www.npmjs.com/package/@ibm/plex-sans-thai-looped) |
 | IBM Plex Serif            | [@ibm/plex-serif](https://www.npmjs.com/package/@ibm/plex-serif)                       |
+
+Each package lives under `packages/` and carries its font binaries in
+`fonts/complete/` (`otf`, `ttf`, `woff`, `woff2`) plus split subsets in
+`fonts/split/`.
+
+## Weights and styles
+
+The Latin families — Sans, Serif, Mono, Sans Condensed — run the full ramp from
+Thin through Bold, each weight paired with a true italic. The script and CJK
+families (Arabic, Hebrew, Devanagari, Thai, Japanese, Korean, Chinese SC/TC)
+ship the weights that suit each writing system. `plex-sans-variable` and
+`plex-serif-variable` fold the weight axis into a single variable font.
+
+## Using the fonts from a CDN
+
+The `@ibm/plex-*` packages are published to npm, so any npm-backed CDN serves
+the files directly. For example, with jsDelivr:
+
+```html
+<link
+  rel="stylesheet"
+  href="https://cdn.jsdelivr.net/npm/@ibm/plex-sans/css/ibm-plex-sans.css"
+/>
+```
+
+```css
+body {
+  font-family: "IBM Plex Sans", system-ui, sans-serif;
+}
+```
+
+Swap `plex-sans` for any package name in the table above to pull a different
+family.
+
+## Validating the fonts
+
+The font files are the product, so the release gate is a parse test, not a
+lint. `tests/test_fonts.py` opens every OTF/TTF master under
+`packages/*/fonts/complete/` with [fontTools](https://github.com/fonttools/fonttools)
+and checks that it parses, holds the required OpenType tables and at least one
+glyph, and exposes a non-empty family, subfamily, full, and PostScript name.
+
+```sh
+uv run --with fonttools --with pytest pytest tests/test_fonts.py -q
+```
+
+CI runs the same command on any change under `packages/**/fonts/**` or `tests/**`
+(see `.github/workflows/validate-fonts.yml`).

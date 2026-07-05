@@ -1,3 +1,28 @@
+# Fork maintenance (apaplexy-fonts)
+
+_This fork tracks the upstream [IBM Plex](https://github.com/IBM/plex) font
+binaries and adds packaging/release scaffolding. The IBM changelog follows
+below, unchanged._
+
+### Added
+
+- `tests/test_fonts.py` — a fontTools validation pass over every OTF/TTF master
+  under `packages/*/fonts/complete/`: each font must parse, hold the required
+  OpenType tables and at least one glyph, and expose a non-empty family,
+  subfamily, full, and PostScript name (222 masters, all green).
+- `.github/workflows/validate-fonts.yml` — CI that runs the validation test on
+  changes under `packages/**/fonts/**` or `tests/**`.
+- README: a fork banner clarifying the relationship to upstream IBM Plex, plus
+  sections on weights/styles, CDN usage, and font validation.
+
+### Changed
+
+- Hardened the `publish-cdn` workflows: pinned `actions/setup-node` and
+  `jakejarvis/s3-sync-action` to commit SHAs and added least-privilege
+  `permissions: contents: read`.
+
+---
+
 ## [Unreleased]
 
 - IBM Plex Sans CN
