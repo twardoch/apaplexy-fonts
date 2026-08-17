@@ -32,3 +32,8 @@ cdn
 # Packages
 packages/*/css
 packages/*/scss
+coverage.xml
+.coverage
+htmlcov/
+*.pyc
+__pycache__/
